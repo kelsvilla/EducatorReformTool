@@ -30,6 +30,15 @@
         background-color: #444;
         color: #fff;
       }
+      input[type="text"], input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: none;
+        background-color: #444;
+        color: #fff;
+      }
       input[type="text"], input[type="password"] {
         width: 100%;
         padding: 10px;
@@ -81,13 +90,14 @@
     <img src="https://i.ibb.co/PtpLtVP/Logo.png" alt="Logo" class="logo">
     <input type="text" id="fullname" name="fullname" placeholder="Full Name" required>
     <input type="text" id="username" name="username" placeholder="Username" required>
+    <input type="email" id="email" name="email" placeholder="Email" required>
     <input type="password" id="password" name="password" placeholder="Password" required>
-    <input type="password" id="password" name="password" placeholder="Retype Password" required>
+    <input type="password" id="confirm_password" name="confirm_password" placeholder="Retype Password" required>
     <div class="radio-buttons-container">
         <span class="radio-button-label">I am a:</span>
-        <input type="radio" id="teacher" name="role" value="teacher" required>
+        <input type="radio" id="role" name="role" value="teacher" required>
         <label for="teacher">Teacher</label>
-        <input type="radio" id="student" name="role" value="student" required>
+        <input type="radio" id="role" name="role" value="student" required>
         <label for="student">Student</label>
     </div>
     <div class="button-container">
