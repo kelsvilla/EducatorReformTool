@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Login Page</title>
-    <style>
+<head>
+  <title>Login Page</title>
+  <style>
+
       body {
         background-color: #333;
         color: #fff;
@@ -44,6 +45,7 @@
       }
       input[type="button"].secondary {
         background-color: #2e2e2e;
+        
       }
       .button-container {
         display: flex;
@@ -74,19 +76,19 @@
         margin-bottom: 20px;
       }
     </style>
-  </head>
-  <body>
-    <form>
-      <img src="D:\D Dev\3444\Capture.PNG" alt="Logo" class="logo">
-      <input type="text" id="username" name="username" placeholder="Username" required>
-      <input type="password" id="password" name="password" placeholder="Password" required>
-      <div class="button-container">
-        <input type="submit" value="Login">
-        <input type="button" value="Register" class="secondary">
-      </div>
-      <div class="forgot-password">
-        <button>Forgot username or password?</button>
-      </div>
-    </form>
-  </body>
+</head>
+<body>
+<form method="POST" action="login.php">
+  <img src="https://i.ibb.co/PtpLtVP/Logo.png" alt="Logo" class="logo">
+  <input type="text" id="username" name="username" placeholder="Username" required>
+  <input type="password" id="password" name="password" placeholder="Password" required>
+  <div class="button-container">
+    <input type="submit" value="Login">
+    <a href="registration.php"><input type="button" value="Register" class="secondary"></a>
+  </div>
+  <div class="forgot-password">
+    <button>Forgot username or password?</button>
+  </div>
+</form>
+</body>
 </html>
