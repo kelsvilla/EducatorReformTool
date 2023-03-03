@@ -1,94 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Login Page</title>
-  <style>
+<?php
+session_start();
+include('connectDB.php');
+// get the login information entered by the user
+$username = $_POST['username'];
+$password = $_POST['password'];
 
-      body {
-        background-color: #333;
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        font-family: Arial, sans-serif;
-      }
-      form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-        border-radius: 10px;
-        background-color: #222;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      }
-      input[type="text"], input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 5px;
-        border: none;
-        background-color: #444;
-        color: #fff;
-      }
-      input[type="text"]::placeholder, input[type="password"]::placeholder {
-        color: #ccc;
-      }
-      input[type="submit"], input[type="button"] {
-        background-color: #4CAF50;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        cursor: pointer;
-        margin: 10px;
-      }
-      input[type="button"].secondary {
-        background-color: #2e2e2e;
-        
-      }
-      .button-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-      }
-      .forgot-password {
-        margin-top: 10px;
-        font-size: 14px;
-      }
-      .forgot-password button {
-        background-color: transparent;
-        color: #4CAF50;
-        border: none;
-        text-decoration: underline;
-        cursor: pointer;
-        margin: 0;
-        padding: 0;
-      }
-      .forgot-password button:focus {
-        outline: none;
-      }
-      .logo {
-        display: block;
-        width: 200px;
-        height: 200px;
-        margin-bottom: 20px;
-      }
-    </style>
-</head>
-<body>
-<form method="POST" action="login.php">
-  <img src="https://i.ibb.co/PtpLtVP/Logo.png" alt="Logo" class="logo">
-  <input type="text" id="username" name="username" placeholder="Username" required>
-  <input type="password" id="password" name="password" placeholder="Password" required>
-  <div class="button-container">
-    <input type="submit" value="Login">
-    <a href="registration.php"><input type="button" value="Register" class="secondary"></a>
-  </div>
-  <div class="forgot-password">
-    <button>Forgot username or password?</button>
-  </div>
-</form>
-</body>
-</html>
+// validate the login information against the data in the database
+$sql = "SELECT * FROM users_table WHERE username='$username' AND password='$password'";
+// Prepare the SQL statement to retrieve user data for the entered username
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $role = $row['role'];
+    $user_id = $row['user_id'];
+
+    // Save role and user_id to session variables
+    $_SESSION['role'] = $role;
+    $_SESSION['user_id'] = $user_id;
+    // User exists, check if password matches
+    if ($row['password'] == $password) {
+        // Password is correct, set session variables and redirect to success page
+        $_SESSION['username'] = $username;
+        $_SESSION['role'] = $row['role'];
+        if($role == "teacher"){
+			header("Location: prof_home.php");
+		}
+		else if($role == "student"){
+			header("Location: homepage.php");
+		};
+        exit();
+    } else {
+        // Password is incorrect, redirect back to login form with error message
+        $conn->close();
+        $error = "Invalid login credentials. Please try again.";
+        header("Location: index.php?error=" . urlencode($error));
+        exit();
+    }
+} else {
+    // User does not exist, redirect back to login form with error message
+    $conn->close();
+    $error = "Invalid login credentials. Please try again.";
+    header("Location: index.php?error=" . urlencode($error));
+    exit();
+}
+
+// Close the database connection
+$conn->close();
+?>
