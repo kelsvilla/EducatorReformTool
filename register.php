@@ -1,16 +1,6 @@
 <?php
-	$servername = "localhost";
-	$username = "id20384193_option1";
-	$password = "1RK{nX*b?^6g-}<s";
-	$dbname = "id20384193_test";
-
-	// Create connection
-	$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check if connection was successful
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+session_start();
+include('connectDB.php');
 
 // Retrieve the form data
 $username = $_POST['username'];
@@ -32,7 +22,17 @@ if ($password != $confirm_password) {
     $sql = "INSERT INTO users_table (fullname, username, email, password, role) VALUES ('$fullname', '$username', '$email', '$password', '$role')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "New user registered successfully";
+        // Password is correct, set session variables and redirect to success page
+        $_SESSION['username'] = $username;
+        $_SESSION['role'] = $row['role'];
+		if($role == "Professor"){
+			header("Location: prof_home.php")
+		}
+		else if($role == "Student"){
+			header("Location: homepage.php");
+		}
+        header("Location: home.php");
+        exit();
     } else {
         $conn->close();
         $error = "Error: " . $sql . "<br>" . $conn->error;
