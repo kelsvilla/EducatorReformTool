@@ -33,7 +33,7 @@ else {
 		else if($role == "Student"){
 			header("Location: homepage.php");
 		}
-        header("Location: home.php");
+        header("Location: index.php");
         exit();
     } else {
         $conn->close();
