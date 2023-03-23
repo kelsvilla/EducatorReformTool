@@ -33,11 +33,11 @@ else {
 		else if($role == "Student"){
 			header("Location: homepage.php");
 		}
-        // header("Location: home.php");
+        header("Location: home.php");
         exit();
     } else {
         $conn->close();
-        $error = "Error: " . $sql . "<br>" . $conn->$error;
+        $error = "Error: " . $sql . "<br>" . $conn->error;
         header("Location: register.php?error=" . urlencode($error));
         exit();
     }
