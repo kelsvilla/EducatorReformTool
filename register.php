@@ -28,7 +28,7 @@ else {
         $_SESSION['username'] = $username;
         $_SESSION['role'] = $row['role'];
 		if($role == "Professor"){
-			header("Location: prof_home.php")
+			header("Location: prof_home.php");
 		}
 		else if($role == "Student"){
 			header("Location: homepage.php");
@@ -37,7 +37,7 @@ else {
         exit();
     } else {
         $conn->close();
-        $error = "Error: " . $sql . "<br>" . $conn->error;
+        $error = "Error: " . $sql . "<br>" . $conn->$error;
         header("Location: register.php?error=" . urlencode($error));
         exit();
     }
