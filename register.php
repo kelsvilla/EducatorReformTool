@@ -17,7 +17,9 @@ if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 // Validate the form data
 if ($password != $confirm_password) {
     echo "Passwords do not match. Please try again.";
-} else {
+} 
+
+else {
     // Prepare the SQL statement to insert the new user data
     $sql = "INSERT INTO users_table (fullname, username, email, password, role) VALUES ('$fullname', '$username', '$email', '$password', '$role')";
 
