@@ -26,14 +26,16 @@ else {
     if ($conn->query($sql) === TRUE) {
         // Password is correct, set session variables and redirect to success page
         $_SESSION['username'] = $username;
-        $_SESSION['role'] = $row['role'];
-		if($role == "Professor"){
+        $_SESSION['role'] = $role;
+		if($role == "teacher"){
 			header("Location: prof_home.php");
 		}
-		else if($role == "Student"){
+		else if($role == "student"){
 			header("Location: homepage.php");
 		}
+		else{
         header("Location: index.php");
+		}
         exit();
     } else {
         $conn->close();
