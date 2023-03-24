@@ -1,6 +1,11 @@
 <?php
 session_start();
+// unset all session variables
+session_unset();
+// destroy the session
+session_destroy();
 include('connectDB.php');
+
 
 // Retrieve the form data
 $username = $_POST['username'];
@@ -18,10 +23,10 @@ if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 if ($password != $confirm_password) {
     echo "Passwords do not match. Please try again.";
 } 
-
 else {
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);  
     // Prepare the SQL statement to insert the new user data
-    $sql = "INSERT INTO users_table (fullname, username, email, password, role) VALUES ('$fullname', '$username', '$email', '$password', '$role')";
+    $sql = "INSERT INTO users_table (fullname, username, email, password, role) VALUES ('$fullname', '$username', '$email', '$hashedPassword', '$role')";
 
     if ($conn->query($sql) === TRUE) {
         // Password is correct, set session variables and redirect to success page
