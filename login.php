@@ -7,10 +7,10 @@ $password = $_POST['password'];
 
 
 // validate the login information against the data in the database
-$sql = "SELECT * FROM users_table WHERE username='$username'";
-// Prepare the SQL statement to retrieve user data for the entered username
-
-$result = $conn->query($sql);
+$stmt = $conn->prepare("SELECT * FROM users_table WHERE username = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $row = mysqli_fetch_assoc($result);
