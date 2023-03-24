@@ -2,8 +2,6 @@
 session_start();
 // unset all session variables
 session_unset();
-// destroy the session
-session_destroy();
 include('connectDB.php');
 
 
@@ -29,13 +27,14 @@ else {
     $sql = "INSERT INTO users_table (fullname, username, email, password, role) VALUES ('$fullname', '$username', '$email', '$hashedPassword', '$role')";
 
     if ($conn->query($sql) === TRUE) {
+        $user_id = $conn->insert_id;
         // Password is correct, set session variables and redirect to success page
-        $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $user_id;
         $_SESSION['role'] = $role;
-		if($role == "teacher"){
+		if($role == 'teacher'){
 			header("Location: prof_home.php");
 		}
-		else if($role == "student"){
+		else if($role == 'student'){
 			header("Location: homepage.php");
 		}
 		else{
