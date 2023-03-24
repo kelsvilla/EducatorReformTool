@@ -5,25 +5,23 @@ include('connectDB.php');
 $username = $_POST['username'];
 $password = $_POST['password'];
 
+
 // validate the login information against the data in the database
-$sql = "SELECT * FROM users_table WHERE username='$username' AND password='$password'";
+$sql = "SELECT * FROM users_table WHERE username='$username'";
 // Prepare the SQL statement to retrieve user data for the entered username
 
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $row = mysqli_fetch_assoc($result);
-    $role = $row['role'];
-    $user_id = $row['user_id'];
-
+    $hashedPassword = $row['password'];
     // Save role and user_id to session variables
-    $_SESSION['role'] = $role;
-    $_SESSION['user_id'] = $user_id;
     // User exists, check if password matches
-    if ($row['password'] == $password) {
+    if (password_verify($password, $hashedPassword)) {
         // Password is correct, set session variables and redirect to success page
         $_SESSION['username'] = $username;
         $_SESSION['role'] = $row['role'];
+        $role = $row['role'];
         if($role == "teacher"){
 			header("Location: prof_home.php");
 		}
