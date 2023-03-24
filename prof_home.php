@@ -4,7 +4,7 @@ include('connectDB.php');
 
 // Check if user is logged in and has the teacher role
 if(!isset($_SESSION['username']) || $_SESSION['role'] != "teacher") {
-  echo $_SESSION['username'], ", ", $_SESSION['role'];
+  header("Location: index.php")
   exit();
 }
 
