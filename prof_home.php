@@ -3,19 +3,19 @@ session_start();
 include('connectDB.php');
 
 // Check if user is logged in and has the teacher role
-if(!isset($_SESSION['user_id']) || $_SESSION['role'] != "teacher") {
-  header("Location: index.php");
+if(!isset($_SESSION['username']) || $_SESSION['role'] != "teacher") {
+  echo $_SESSION['username'], ", ", $_SESSION['role'];
   exit();
 }
 
 // Retrieve the user's id from the session variable
-$user_id = $_SESSION['user_id'];
+$username = $_SESSION['username'];
 // Use the user's id to query the database for their information
-$stmt = $conn->prepare("SELECT * FROM users_table WHERE user_id = ?");
+$stmt = $conn->prepare("SELECT * FROM users_table WHERE username = ?");
 if ($stmt === false) {
     die('Error: ' . $conn->error);
 }
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("i", $username);
 $stmt->execute();
 $result = $stmt->get_result();
 if(!$result){
