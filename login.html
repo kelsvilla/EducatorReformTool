@@ -19,7 +19,7 @@ if ($result->num_rows > 0) {
     // User exists, check if password matches
     if (password_verify($password, $hashedPassword)) {
         // Password is correct, set session variables and redirect to success page
-        $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $row['user_id'];
         $_SESSION['role'] = $row['role'];
         $role = $row['role'];
         if($role == "teacher"){
