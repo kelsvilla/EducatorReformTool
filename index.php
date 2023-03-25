@@ -63,6 +63,7 @@
         border: none;
         text-decoration: underline;
         cursor: pointer;
+        margin: 0;
       }
       .forgot-password button:focus {
         outline: none;
