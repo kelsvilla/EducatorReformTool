@@ -24,7 +24,7 @@ if($result->num_rows > 0){
     //Username already exists, set error message and return to registration page
     $error = "Username or email are already associated with an existing account.";
     header("Location: register.php?error=".urlencode($error));
-    exit()
+    exit();
 }
 
 // Validate the form data
