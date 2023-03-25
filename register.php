@@ -18,9 +18,9 @@ if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 //Check if username or email are already associated with an existing account
 $sql = "SELECT * FROM users_table WHERE username='$username' OR email='$email'";
-$result = $conn->query($sql)
+$result = $conn->query($sql);
 
-if($result->num_rows > 0){
+if ($result->num_rows > 0){
     //Username already exists, set error message and return to registration page
     $error = "Username or email are already associated with an existing account.";
     header("Location: register.php?error=".urlencode($error));
