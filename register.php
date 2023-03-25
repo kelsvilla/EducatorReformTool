@@ -48,10 +48,10 @@ else {
         $_SESSION['user_id'] = $user_id;
         $_SESSION['role'] = $role;
 		if($role == 'teacher'){
-			header("Location: prof_home.php");
+			header("Location: prof_dash_test.php");
 		}
 		else if($role == 'student'){
-			header("Location: homepage.php");
+			header("Location: student_dash_test.php");
 		}
 		else{
         header("Location: index.php");
