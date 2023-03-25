@@ -16,22 +16,26 @@ $confirm_password = $_POST['confirm_password'];
 if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 	$error = "Invalid email format";
 }
-/*
-//Check if username or email are already associated with an existing account
+
+// Check if the username or email already exists in the database
 $sql = "SELECT * FROM users_table WHERE username='$username' OR email='$email'";
 $result = $conn->query($sql);
 
-if ($result->num_rows > 0){
-    //Username already exists, set error message and return to registration page
-    $error = "Username or email are already associated with an existing account.";
-    header("Location: register.php?error=".urlencode($error));
+if ($result->num_rows > 0) {
+    // User already exists, set error message and redirect back to register page
+    $error = "Username or email already exists. Please try again.";
+    $conn->close();
+    header("Location: registration.php?error=" . urlencode($error));
     exit();
 }
-*/
+
 
 // Validate the form data
 if ($password != $confirm_password) {
-    echo "Passwords do not match. Please try again.";
+    $error = "Passwords do not match. Please try again.";
+    $conn->close();
+    header("Location: registration.php?error=" . urlencode($error));
+    exit();
 } 
 else {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);  
