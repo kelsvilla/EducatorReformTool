@@ -67,7 +67,19 @@
       }
       .radio-button-label {
         margin-right: 10px;
+        width: 50px;
+        font-size: 16px;
       }
+
+      input[type="radio"] {
+        margin-right: 5px;
+        width: 15px;
+      }
+
+      input[type="radio"] + label {
+        font-size: 16px;
+      }
+      
     </style>
 </head>
 <body>
