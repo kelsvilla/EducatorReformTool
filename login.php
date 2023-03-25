@@ -23,10 +23,10 @@ if ($result->num_rows > 0) {
         $_SESSION['role'] = $row['role'];
         $role = $row['role'];
         if($role == "teacher"){
-			header("Location: prof_home.php");
+			header("Location: prof_dash_test.php");
 		}
 		else if($role == "student"){
-			header("Location: homepage.php");
+			header("Location: student_dash_test.php");
 		};
         exit();
     } else {
