@@ -21,7 +21,8 @@
         background-color: #222;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       }
-      input[type="text"], input[type="fullname"] {
+
+        input {
         width: 100%;
         padding: 10px;
         margin: 10px 0;
@@ -30,27 +31,11 @@
         background-color: #444;
         color: #fff;
       }
-      input[type="text"], input[type="email"] {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 5px;
-        border: none;
-        background-color: #444;
-        color: #fff;
-      }
-      input[type="text"], input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 5px;
-        border: none;
-        background-color: #444;
-        color: #fff;
-      }
-      input[type="text"]::placeholder, input[type="password"]::placeholder {
+      
+        input::placeholder {
         color: #ccc;
       }
+      
       input[type="submit"], input[type="button"] {
         background-color: #4CAF50;
         color: #fff;
