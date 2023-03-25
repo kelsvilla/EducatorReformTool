@@ -121,12 +121,27 @@ $conn->close();
 		.add-class:hover {
 			background-color: #00204a;
 		}
+		.logout-form {
+    		display: inline-block;
+    		margin-left: 10px;
+		}
+
+		.logout-form button {
+    		background-color: #fff;
+    		color: #05668D;
+    		border: none;
+    		font-size: 18px;
+    		cursor: pointer;
+		}
 	</style>
 </head>
 <body>
 <div class="header">
     <img src="https://i.ibb.co/PtpLtVP/Logo.png" alt="Logo" class="logo">
     <span><?php echo $fullname; ?></span>
+    <form action="logout.php" method="POST" class="logout-form">
+        <button type="submit" name="logout">Logout</button>
+    </form>
 </div>
 <div class="container">
     <div class="class-grid">
