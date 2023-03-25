@@ -16,6 +16,7 @@ $confirm_password = $_POST['confirm_password'];
 if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 	$error = "Invalid email format";
 }
+/*
 //Check if username or email are already associated with an existing account
 $sql = "SELECT * FROM users_table WHERE username='$username' OR email='$email'";
 $result = $conn->query($sql);
@@ -26,6 +27,7 @@ if ($result->num_rows > 0){
     header("Location: register.php?error=".urlencode($error));
     exit();
 }
+*/
 
 // Validate the form data
 if ($password != $confirm_password) {
