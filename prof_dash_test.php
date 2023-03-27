@@ -22,6 +22,22 @@ if ($result->num_rows > 0) {
     $fullname = "User Not Found";
 }
 
+$sql = "SELECT class_name FROM class_table WHERE professor_id = $user_id";
+$result = $conn->query($sql);
+$class_names = array();
+
+if (!$result) {
+    printf("Error: %s\n", mysqli_error($conn));
+    exit();
+}
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $class_names[] = $row['class_name'];
+    }
+}
+
+
 $conn->close();
 ?>
 
@@ -133,6 +149,62 @@ $conn->close();
     		font-size: 18px;
     		cursor: pointer;
 		}
+		
+		        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; /* 10% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* Styles for the form inside the modal */
+        .create-class-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .create-class-form label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .create-class-form input[type=text] {
+            font-size: 18px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .create-class-form input[type=submit] {
+            background-color: #05668D;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+		
+		
+		
 	</style>
 </head>
 <body>
@@ -144,10 +216,36 @@ $conn->close();
     </form>
 </div>
 <div class="container">
-    <div class="class-grid">
-        <div class="class-card">Class 1</div>
+    <h2>Your Classes</h2>
+        <div class="class-grid">
+            <?php foreach ($class_names as $class) { ?>
+                <div class="class-card">
+                    <h3><?php echo $class; ?></h3>
+                </div>
+            <?php } ?>
+        </div>
+</div>
+<div id="createClassModal" class="modal">
+    <div class="modal-content">
+        <h2>Create Class</h2>
+            <form class="create-class-form" action="createClass.php" method="post">
+            <label for="class-name">Class Name:</label>
+            <input type="text" name="class-name" id="class-name" required>
+            <input type="submit" value="Create Class">
+            </form>
+
     </div>
 </div>
-<button class="create-class">Create Class</button>
+
+<!-- The "Create Class" button -->
+<button class="create-class" onclick="document.getElementById('createClassModal').style.display='block'">Create Class</button>
+<script>
+    var modal = document.getElementById('createClassModal');
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 </body>
 </html>
