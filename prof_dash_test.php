@@ -22,9 +22,10 @@ if ($result->num_rows > 0) {
     $fullname = "User Not Found";
 }
 
-$sql = "SELECT class_name FROM class_table WHERE professor_id = $user_id";
+$sql = "SELECT class_name, class_id FROM class_table WHERE professor_id = $user_id";
 $result = $conn->query($sql);
 $class_names = array();
+$class_ids = array();
 
 if (!$result) {
     printf("Error: %s\n", mysqli_error($conn));
@@ -34,6 +35,7 @@ if (!$result) {
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $class_names[] = $row['class_name'];
+        $class_ids[] = $row['class_id'];
     }
 }
 
@@ -93,32 +95,30 @@ $conn->close();
         width: 100px;
         height: 100px;
       }
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+        }
 
-		.class-grid {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			grid-gap: 20px;
-		}
+        .class-button {
+            background-color: #f2f2f2;
+            padding: 20px;
+            border: 1px solid #d9d9d9;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            cursor: pointer;
+            transition: all .2s ease-in-out;
+        }
 
-		.class-card {
-			background-color: #f2f2f2;
-			padding: 20px;
-			border: 1px solid #d9d9d9;
-			border-radius: 5px;
-			text-align: center;
-			font-size: 18px;
-			font-weight: bold;
-			color: #000000;
-			cursor: pointer;
-			transition: all .2s ease-in-out;
-		}
-
-		.class-card:hover {
-			background-color: #ffffff;
-			box-shadow: 0 2px 8px rgba(0,0,0,.15);
-			transform: translateY(-2px);
-		}
-
+        .class-button:hover {
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,.15);
+            transform: translateY(-2px);
+        }
 		.create-class {
 			position: fixed;
 			bottom: 20px;
@@ -216,15 +216,19 @@ $conn->close();
     </form>
 </div>
 <div class="container">
-    <h2>Your Classes</h2>
+        <h2>My Classes</h2>
         <div class="class-grid">
-            <?php foreach ($class_names as $class) { ?>
-                <div class="class-card">
-                    <h3><?php echo $class; ?></h3>
-                </div>
-            <?php } ?>
+            <?php 
+                if (count($class_names) > 0) {
+                    for ($i = 0; $i < count($class_names); $i++) {
+                        echo '<a href="class_dash_prof.php?class_id=' . $class_ids[$i] . '" class="class-button">' . $class_names[$i] . '</a>';
+                    }
+                } else {
+                    echo '<p>You have not created any classes yet.</p>';
+                }
+            ?>
         </div>
-</div>
+    </div>
 <div id="createClassModal" class="modal">
     <div class="modal-content">
         <h2>Create Class</h2>
