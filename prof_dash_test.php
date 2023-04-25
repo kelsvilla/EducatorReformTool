@@ -22,10 +22,11 @@ if ($result->num_rows > 0) {
     $fullname = "User Not Found";
 }
 
-$sql = "SELECT class_name, class_id FROM class_table WHERE professor_id = $user_id";
+$sql = "SELECT class_name, class_id, class_code FROM class_table WHERE professor_id = $user_id";
 $result = $conn->query($sql);
 $class_names = array();
 $class_ids = array();
+$class_codes = array();
 
 if (!$result) {
     printf("Error: %s\n", mysqli_error($conn));
@@ -36,6 +37,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $class_names[] = $row['class_name'];
         $class_ids[] = $row['class_id'];
+        $class_codes[] = $row['class_code'];
     }
 }
 
