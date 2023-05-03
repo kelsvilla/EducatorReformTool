@@ -2,15 +2,14 @@
 session_start();
 include('connectDB.php');
 $user_id =  $_SESSION['user_id'];
-if (isset($_GET['class_id'])) {
-    $class_id = $_GET['class_id'];
+$questions = [];
+if (isset($_SESSION['class_id'])) {
+    $class_id = $_SESSION['class_id'];
 } else {
-    echo "Error: Class ID not specified in URL";
+    echo "Error: Class ID not set";
     exit();
 }
-$_SESSION['class_id'] = $class_id;
 $className = "None";
-var_dump($user_id);
 
 $stmt = $conn->prepare("SELECT * FROM class_table WHERE class_id = ?");
 $stmt->bind_param("s", $class_id);
@@ -30,11 +29,17 @@ if ($result->num_rows > 0) {
     $className = $row['class_name'];
 }
 
-$asssignments = [];
-$stmt = $conn->prepare("SELECT * FROM assignments_table WHERE class_id = ?");
-$stmt->bind_param("s", $class_id);
+$assignment_id = $_GET['assignment_id'];
+
+$stmt = $conn->prepare("SELECT * FROM questions_table WHERE assignment_id = ?");
+$stmt->bind_param("s", $assignment_id);
 $stmt->execute();
-$assignments = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$questions = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$question_title = "No questions added to assignment yet.";
+
+foreach ($questions as $question): 
+    $question_title = $question['question_title'];
+endforeach;
 
 $conn->close();
 
@@ -43,7 +48,7 @@ $conn->close();
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Student Assignment Page</title>
     <style>
         body {
             margin: 0;
@@ -53,7 +58,7 @@ $conn->close();
         }
 
         .header {
-            background-color: #444;
+            background-color: #444444;
             color: #ffffff;
             padding: 10px;
             font-weight: bold;
@@ -112,11 +117,13 @@ $conn->close();
             width: 100px;
             height: 100px;
         }
-        .assignment-container {
+        .question-container {
             margin-top: 150px;
+            margin-left: 10px;
+            margin-right: 10px;
         }
         
-        .assignment-box {
+        .question-box {
             border: 1px solid black;
             background-color: white;
             padding: 10px;
@@ -135,12 +142,20 @@ $conn->close();
         .header h3 {
             margin-top: 10px;
         }
+        
+        .review-box {
+            border: 1px solid black;
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        
 </style>
 </head>
-<body>
 <div class="header">
     <img src="https://i.ibb.co/PtpLtVP/Logo.png" alt="Logo" class="logo">
-    <h1><?php echo $className; ?></h1>
+    <h1><?php echo $question_title ?></h1>
     <form action ="student_dash_test.php" class="home-form">
         <button type="submit" name="home">Home</button>
     </form>
@@ -148,17 +163,26 @@ $conn->close();
         <button type="submit" name="logout">Logout</button>
     </form>
 </div>
-
-<div class="assignment-container">
-    <?php foreach ($assignments as $assignment): ?>
-        <div class="assignment-box">
-            <form action="student_assignment_page.php" method="GET" class="home-form">
-              <input type="hidden" name="assignment_id" value="<?php echo $assignment['assignment_id']; ?>">
-              <button type="submit"><?php echo htmlspecialchars($assignment['assignment_title']) ?></button>
-            </form>
-        </div>
+<div class="question-container">
+  <form action="assignment_review.php" method="POST">
+    <input type="hidden" name="assignment_id" value="<?php echo $assignment_id ?>">
+    <?php foreach ($questions as $question): ?>
+      <div class="question-box">
+        <?php echo htmlspecialchars($question['question_data']) ?>
+        <input type="hidden" name="question_id[]" value="<?php echo $question['question_id'] ?>">
+        <label for="rating">Rating:</label>
+        <input type="number" name="rating[]" id="rating" min="1" max="5" required>
+        <br>
+        <label for="review">Review:</label>
+        <textarea name="review[]" id="review" required></textarea>
+        <br>
+      </div>
     <?php endforeach; ?>
+    <button type="submit" name="submit">Submit</button>
+  </form>
 </div>
+
+
 
 </body>
 </html>

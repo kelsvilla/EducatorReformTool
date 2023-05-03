@@ -50,7 +50,7 @@ $conn->close();
         }
 
         .header {
-            background-color: #05668D;
+            background-color: #444;
             color: #ffffff;
             padding: 10px;
             font-size: 24px;
@@ -122,7 +122,7 @@ $conn->close();
 			bottom: 20px;
 			left: 20px;
 			padding: 10px;
-			background-color: #00356f;
+			background-color: #333;
 			color: #ffffff;
 			border: none;
 			border-radius: 5px;
@@ -141,9 +141,10 @@ $conn->close();
 		}
 
 		.logout-form button {
-    		background-color: #fff;
-    		color: #05668D;
+    		background-color: #333;
+    		color: #fff;
     		border: none;
+            border-radius: 10px;
     		font-size: 18px;
     		cursor: pointer;
 		}

@@ -53,7 +53,7 @@ $conn->close();
         }
 
         .header {
-            background-color: #05668D;
+            background-color: #444;
             color: #ffffff;
             padding: 10px;
             font-weight: bold;
@@ -103,11 +103,11 @@ $conn->close();
 
         .create-assignment-form button,
         .logout-form button,
-        .view-feedback button,
         .home-form button {
-            background-color: #fff;
-            color: #05668D;
+            background-color: #333;
+            color: #fff;
             border: none;
+            border-radius: 10px;
             font-size: 18px;
             cursor: pointer;
         }
@@ -132,6 +132,8 @@ $conn->close();
             padding: 10px;
             margin-bottom: 10px;
         }
+
+        .view-feedback button{}
 
         .header h1,
         .header h2,
