@@ -103,6 +103,7 @@ $conn->close();
 
         .create-assignment-form button,
         .logout-form button,
+        .view-feedback button,
         .home-form button {
             background-color: #fff;
             color: #05668D;
@@ -166,6 +167,8 @@ $conn->close();
     <?php foreach ($assignments as $assignment): ?>
         <div class="assignment-box">
             <?php echo htmlspecialchars($assignment['assignment_title']) ?>
+            <form action="view-feedback.php" method="POST" class="view-feedback">
+                <button type="submit" name="View Feedback">View Feedback</button>
         </div>
     <?php endforeach; ?>
 </div>
@@ -174,4 +177,3 @@ $conn->close();
     <?php echo "Class code: ", $class_code; ?>
 </div>
 </html>
-
