@@ -103,6 +103,7 @@ $conn->close();
 
         .create-assignment-form button,
         .logout-form button,
+        .view-feedback button,
         .home-form button {
             background-color: #333;
             color: #fff;
@@ -132,8 +133,6 @@ $conn->close();
             padding: 10px;
             margin-bottom: 10px;
         }
-
-        .view-feedback button{}
 
         .header h1,
         .header h2,
@@ -168,9 +167,8 @@ $conn->close();
 <div class="assignment-container">
     <?php foreach ($assignments as $assignment): ?>
         <div class="assignment-box">
-            <?php echo htmlspecialchars($assignment['assignment_title']) ?>
-            <form action="view-feedback.php" method="POST" class="view-feedback">
-                <button type="submit" name="View Feedback">View Feedback</button>
+            <?php echo htmlspecialchars($assignment['assignment_title']);
+            echo '<a href="view-feedback.php?assignment_id=' . $assignment[assignment_id] . '" class=".view-feedback-button">' . $assignment_title[assignment_title] . '</a>'; ?>
         </div>
     <?php endforeach; ?>
 </div>
