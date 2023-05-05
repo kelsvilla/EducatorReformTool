@@ -167,8 +167,7 @@ $conn->close();
 <div class="assignment-container">
     <?php foreach ($assignments as $assignment): ?>
         <div class="assignment-box">
-            <?php echo htmlspecialchars($assignment['assignment_title']);
-            echo '<a href="view-feedback.php?assignment_id=' . $assignment[assignment_id] . '" class=".view-feedback-button">' . $assignment_title[assignment_title] . '</a>'; ?>
+            <?php echo '<a href="view-feedback.php?assignment_id=' . $assignment['assignment_id'] . '" class=".view-feedback-button">' . $assignment['assignment_title'] . '</a>'; ?>
         </div>
     <?php endforeach; ?>
 </div>
