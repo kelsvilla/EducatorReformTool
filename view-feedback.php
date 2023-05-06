@@ -56,6 +56,9 @@ $conn->close();
 
 <!DOCTYPE html>
 <html>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
 <head>
     <title></title>
     <style>
@@ -128,7 +131,7 @@ $conn->close();
         }
         
         .question-container {
-            margin-top: 150px;
+            margin-top: 10px;
         }
 
         .question-box {
@@ -169,6 +172,17 @@ $conn->close();
         .header h3 {
             margin-top: 10px;
         }
+        
+        .graph-container {
+            width: 1000px;
+            height: 500px;
+            margin-left:150px;
+            margin-top:135px;
+            padding: 10px;
+            position: center;
+            align-items: center;
+        }
+        
     </style>
 </head>
 <body>
@@ -183,6 +197,67 @@ $conn->close();
         <button type="submit" name="logout">Logout</button>
     </form>
 </div>
+
+<?php $question_ratings = array();
+foreach ($questions as $question) {
+    $question_ratings[$question['question_id']] = array('question_data' => $question['question_data'], 'total_rating' => 0, 'num_ratings' => 0);
+}
+
+foreach ($ratings as $rating) {
+    $question_id = $rating['question_id'];
+    $question_ratings[$question_id]['total_rating'] += $rating['student_rating'];
+    $question_ratings[$question_id]['num_ratings']++;
+}
+
+foreach ($question_ratings as &$question_rating) {
+    if ($question_rating['num_ratings'] > 0) {
+        $question_rating['avg_rating'] = $question_rating['total_rating'] / $question_rating['num_ratings'];
+    } else {
+        $question_rating['avg_rating'] = 0;
+    }
+}
+?>
+
+<div class="graph-container">
+    <canvas id="rating-chart"></canvas>
+</div>
+
+<script>
+    var ctx = document.getElementById('rating-chart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [
+                <?php foreach ($question_ratings as $question_rating) { ?>
+                    "<?php echo $question_rating['question_data']; ?>",
+                <?php } ?>
+            ],
+            datasets: [{
+                label: 'Average Rating',
+                data: [
+                    <?php foreach ($question_ratings as $question_rating) { ?>
+                        <?php echo $question_rating['avg_rating']; ?>,
+                    <?php } ?>
+                ],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+
+
 <div class="question-container">
     <?php foreach ($questions as $question) { ?>
         <div class="question-box">
